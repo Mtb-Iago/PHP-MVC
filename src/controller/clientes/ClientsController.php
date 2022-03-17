@@ -15,8 +15,8 @@ class ClientsController
     public function selectAll()
     {
         $res = $this->clients->selectAll();
-
-        print_r($res);
+        return $res;
+        //print_r($res);
         
     }
 

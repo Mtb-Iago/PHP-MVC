@@ -39,7 +39,7 @@ class Routes
                 'router' => './src/resources/view/'.$this->path.'/listar.php',
                 'data'   => [
                     'path' => $this->path,
-                    'data'      => [$res]
+                    'dados'      => $res
                 ]
             ];
             return $return;
@@ -68,6 +68,7 @@ class Routes
         switch ($action) {
             case 'listar':
                 $response = $this->controller->selectAll();
+                return $response;
                 break;
             case 'criar':
                 $response = $this->controller->create($params);

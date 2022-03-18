@@ -1,7 +1,7 @@
 <?php
 
 // DADOS PARA CONEXÃO COM BD LOCAL
-CONST DBDRIVE = 'mundibox';
+CONST DBDRIVE = 'php_mvc';
 CONST DBHOST = 'db';
 CONST DBUSER = 'root';
 CONST DBPASS = 'root';

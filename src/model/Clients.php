@@ -14,11 +14,11 @@ class Clients
         try {
             
             $pdo = $this->connection->connection();
-            $res = $pdo->query("SELECT * FROM users
+            $res = $pdo->query("SELECT * FROM clients
              WHERE id = $id ");
 
             $return_data = $res->fetch();
-            return json_encode($return_data, true);
+            return $return_data;
         }
         catch (\Throwable $th) {
         //throw $th;
@@ -30,7 +30,7 @@ class Clients
         try {
             $connection = new Conn();
             $pdo = $connection->connection();
-            $res = $pdo->query("SELECT * FROM users ORDER BY id desc ");
+            $res = $pdo->query("SELECT * FROM clients ORDER BY id desc ");
 
             $return_data = $res->fetchAll(\PDO::FETCH_ASSOC);
             return $return_data;
@@ -47,10 +47,19 @@ class Clients
         try {
             $connection = new Conn();
             $pdo = $connection->connection();
-
             
+            $res = $pdo->prepare("INSERT into clients ( name, password, email, phone, city, state) values
+                                                    (:name, :password, :email, :phone, :city, :state) ");
+
+            $res->bindValue(':name', $params['nome']);
+            $res->bindValue(':password', $params['password']);
+            $res->bindValue(':email', $params['email']);
+            $res->bindValue(':phone', $params['phone']);
+            $res->bindValue(':city', $params['city']);
+            $res->bindValue(':state', $params['state']);
+            $res->execute();
            
-                return json_encode([["status" => false, "error" => "bottom"]]);
+        return json_encode([["status" => true, "msg" => "gravado com sucesso"]]);
             
         }
         catch (\Throwable $th) {
@@ -58,14 +67,29 @@ class Clients
         }
 
     }
-    public function update(array $params, array $files = null)
+    public function update(array $params, int $id)
     {
         $connection = new Conn();
         $pdo = $connection->connection();
 
-        
-            return json_encode([["status" => false, "Erro: " => "Error"]]);
-        
+        try {
+            $res = $pdo->prepare("UPDATE clients SET name = :name, email = :email, phone = :phone,
+                                        city = :city, state = :state WHERE id = :id ");
+
+            $res->bindValue(':name', $params['nome']);
+            $res->bindValue(':email', $params['email']);
+            $res->bindValue(':phone', $params['phone']);
+            $res->bindValue(':city', $params['city']);
+            $res->bindValue(':state', $params['state']);
+
+            $res->bindValue(':id', $params['id']);
+
+            $res->execute();
+
+            return json_encode([["status" => true, "msg: " => "Editado com sucesso"]]);
+        } catch (\Throwable $th) {
+            return json_encode([["status" => false, "error" => "catch", "data" => $th]]);
+        }
 
     }
     
@@ -76,7 +100,7 @@ class Clients
         $pdo = $connection->connection();
 
         try {
-            $res = $pdo->query("DELETE FROM users WHERE id = '$id' ");
+            $res = $pdo->query("DELETE FROM clients WHERE id = '$id' ");
 
             return true;
         }

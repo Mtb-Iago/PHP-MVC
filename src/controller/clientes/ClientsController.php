@@ -16,39 +16,34 @@ class ClientsController
     {
         $res = $this->clients->selectAll();
         return $res;
-        //print_r($res);
         
     }
 
     public function selectOne(int $id)
     {
         $res = $this->clients->selectOne($id);
-
-        print_r($res);
+        return $res;
         
     }
 
     public function create(array $params)
     {
         $res = $this->clients->create($params);
-
-        print_r($res);
+        return $res;
         
     }
 
-    public function update(array $params)
+    public function update(array $params, int $id)
     {
-        $res = $this->clients->update($params);
-
-        print_r($res);
+        $res = $this->clients->update($params, $id);
+        return $res;
         
     }
 
     public function delete(int $id)
     {
         $res = $this->clients->delete($id);
-
-        print_r($res);
+        return $res;
         
     }
 }

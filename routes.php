@@ -1,6 +1,7 @@
 <?php
 namespace routes;
 
+use services\ClientsServices\ClientsServices;
 use src\controller\ClientsController\ClientsController;
 
 require_once './src/config/config.php';
@@ -9,20 +10,25 @@ require_once './src/config/connection.php';
 require_once './src/model/Clients.php';
 require_once './src/controller/clientes/ClientsController.php';
 
+require_once './src/services/ClientsServices.php';
+
 class Routes 
 {
     protected $url;
     protected $action;
     protected $params;
     protected $controller;
+    protected $services;
 
     public function __construct() {
         $url = $this->url;
         $action = $this->action;
         $params = $this->params;
         $controller = $this->controller;
-        
+        $services = $this->services;
+
         $this->controller = new ClientsController();
+        //$this->services = new ClientsServices();
     }
 
     public function redirect(Array $uri = null)
@@ -48,14 +54,21 @@ class Routes
             $this->path = $uri[0];
             $this->action = $uri[1];
             $this->params = @$uri[2];
-
+            $res = [];
+            if ($this->action != 'criar' && @$_POST['action'] != 'create') {
+                if (@$_POST['id']) {
+                    $res = $this->action($this->action, $_POST['id']);
+                } else {
+                    $res = $this->action($this->action, $this->params);
+                }
+            }
             $return = [
                 'router' => './src/resources/view/'.$this->path.'/'.$this->action.'.php',
                 'data'   => [
                     'params_url' => $this->params,
                     'action'    => $this->action,
                     'path'      => $this->path,
-                    'data'      => []
+                    'data'      => $res
                 ]
             ];
             return $return;
@@ -63,21 +76,21 @@ class Routes
         
     }
 
-    public function action(string $action, int $id = null, array $params = null)
+    public function action(string $action, int $id = null)
     {
+
         switch ($action) {
             case 'listar':
                 $response = $this->controller->selectAll();
                 return $response;
                 break;
-            case 'criar':
-                $response = $this->controller->create($params);
-                break;
-            case 'update':
-                $response = $this->controller->update($params);
+            case 'editar':
+                $response = $this->controller->selectOne($id);
+                return $response;
                 break;
             case 'deletar':
-                $response = $this->controller->delete($id);
+                $response = $this->controller->selectOne($id);
+                return $response;
                 break;
             default:
                 # code...

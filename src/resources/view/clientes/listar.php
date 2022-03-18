@@ -27,7 +27,7 @@ define('STYLE_GLOBAL', './src/assets/css/styles.css');
           <td><?=$value['state']?></td>
           <td>
             <a href="<?=$view['data']['path'].'/editar/'.$value['id']?>" class="badge bg-info text-light">Editar</a>
-            <a href="<?=$view['data']['path'].'/deletar/'.$value['id']?>" class="badge bg-danger text-light">Deletar</a>
+            <a href="<?=$view['data']['path'].'/deletar/'.$value['id']?>" class="badge bg-danger text-light">Excluir</a>
           </td>
           
       </tr>

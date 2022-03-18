@@ -18,36 +18,31 @@ class Routes
     protected $action;
     protected $params;
     protected $controller;
-    protected $services;
 
     public function __construct() {
         $url = $this->url;
         $action = $this->action;
         $params = $this->params;
         $controller = $this->controller;
-        $services = $this->services;
 
         $this->controller = new ClientsController();
-        //$this->services = new ClientsServices();
     }
 
     public function redirect(Array $uri = null)
     {
-        if (!$uri['url']) {
-            return './src/resources/view/index';
+        if (!@$uri['url']) {
+            $router = './src/resources/view/clientes/listar.php';
+            $return = $this->notUrlOrNotParams($router,'clientes');
+            
+            return $return;
         }
         $uri = explode('/',trim($uri['url']));
         
         if (count($uri) <= 1) {
             $this->path = $uri[0];
-            $res = $this->action('listar');
-            $return = [
-                'router' => './src/resources/view/'.$this->path.'/listar.php',
-                'data'   => [
-                    'path' => $this->path,
-                    'dados'      => $res
-                ]
-            ];
+            $router = './src/resources/view/'.$this->path.'/listar.php';
+            $return = $this->notUrlOrNotParams($router,$this->path);
+            
             return $return;
         }
         if (count($uri) > 1) {
@@ -97,5 +92,18 @@ class Routes
                 break;
         }
       
+    }
+
+    public function notUrlOrNotParams(string $router, string $path)
+    {
+        $res = $this->action('listar');
+        $return = [
+            'router' => $router,
+            'data'   => [
+                'path'  => $path,
+                'dados' => $res
+            ]
+        ];
+        return $return;
     }
 }

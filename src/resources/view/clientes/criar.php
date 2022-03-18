@@ -1,5 +1,5 @@
 <?php
-define('STYLE_GLOBAL', '../src/assets/css/styles.css');
+define('STYLE_GLOBAL', "../src/assets/css/styles.css");
 ?>
 <head><link rel="stylesheet" type="text/css" href="<?=STYLE_GLOBAL?>"></head>
 <h4>Adicionar Clientes <a href="<?=URL_LISTAR_CLIENTE?>"><span class="badge bg-warning"><</span></a></h4>

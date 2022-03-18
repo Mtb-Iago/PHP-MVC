@@ -10,4 +10,25 @@ body {
     justify-content: center;
     align-items: center;
     margin: auto;
+    overflow: scroll;
+}
+.container::-webkit-scrollbar {
+    display: none;
+}
+footer {
+    min-height: 10rem;
+    background-color: rgba(0, 0, 0, 0.233);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+footer p {
+    margin: 70px 0 -10px 0;
+    font-size: 0.7rem;
+}
+footer small {
+    margin: 10px 0 -3px 0;
+    font-size: 0.7rem;
 }
